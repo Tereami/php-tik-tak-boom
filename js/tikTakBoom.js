@@ -21,12 +21,24 @@ tikTakBoom = {
     },
 
     run() {
+        this.startTimer();
+    },
+  
+    //Время подготовки игрока
+    startTimer(){
+        let timeToPlay = 3;
+        this.timerField.innerText = `3`;
+        this.gameStatusField.innerText = `Игра начнётся через`;
+        let self = this;
+        const startTimer = setInterval(function(){timeToPlay--;this.timerField.innerText = `${timeToPlay}`;},1000);
+        setTimeout(function(){clearInterval(startTimer);self.startQueeze();},4000);
+    },
+
+    startQueeze(){
         this.state = 1;
-
         this.rightAnswers = 0;
-
+        this.gameStatusField.innerText = `Игра идёт`;
         this.turnOn();
-
         this.timer();
     },
 

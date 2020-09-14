@@ -1,5 +1,4 @@
 const tasks = `
-
     [
         {
             "question": "2 * 2 = ",
@@ -65,9 +64,7 @@ const tasks = `
             "question": "В каком иде спорта используется бита и мяч?",
             "answer1": { "result": false, "value": "Гольф"},
             "answer2": { "result": true, "value": "Крикет"}
-        },     
- 
-        
+        },             
         {
             "question": "Кто съел колобка?",
             "answer1": { "result": false, "value": "Лиса"},
@@ -152,6 +149,6 @@ const tasks = `
             "question": "Что такое событие?",
             "answer1": { "result": false, "value": "Способ взаимодействия между пользователем и сайтом"},
             "answer2": { "result": true, "value": "Вывод ошибки в консоль"}
-        },    
+        }   
     ]
 `;
