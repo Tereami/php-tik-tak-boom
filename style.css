@@ -59,3 +59,12 @@ span{
 #endgamediv{
     margin-top: 5px;
 }
+
+#playerNum #playerInp input{
+    border: none;
+}
+
+#playerNum p {
+    font-style: oblique;
+    margin-bottom: 0px;
+}

@@ -42,7 +42,7 @@ const tasks = `
         },          
         {
             "question": "Глубина Марианской впадины, метров?",
-            "answer1": { "result": false, "value": "5000"  },
+            "answer1": { "result": false, "value": "5000"},
             "answer2": { "result": true, "value": "11000"}
         },   
         {

@@ -15,8 +15,8 @@
             <div class="row">
                 <h1>Тик-так-бум</h1>
             </div>
-            <div class="row">
-                <span class="alert alert-primary" id="gameStatusField">Игра идёт</span>
+            <div class="row h-100">
+                <span class="alert alert-primary" id="gameStatusField">Нажмите "Начать игру" для старта</span>
             </div>
             <div class="row">
                 <div class="col">
@@ -30,11 +30,29 @@
             <div class="row">
                 <h3 id="questionField"></h3>
             </div>
-            <div class="row">
-                <div id="answer1" class="btn btn-primary form-control text-left answer"></div>
+            <div class="row" id = "playerNum">
+                <div class="row justify-content-center" id = "playerNumtext">
+                    <p>Выберите количество игроков</p>
+                </div>
+                <div class="row justify-content-center" id = "playerInp">               
+                    <div class="number-input md-number-input">
+                        <input id="number" type="number" value="1" min="1" max="4" step="1">
+                    </div>   
+                </div> 
             </div>
-            <div class="row">
-                <div id="answer2" class="btn btn-danger form-control text-left answer"></div>
+            <div class="row" id="startgamediv">
+                <div id="startgame" class="btn btn-warning form-control text-center startgame">Начать игру</div>               
+            </div>
+            <div class="col" id="gameButtons">
+                <div class="row" id="answer1row">
+                    <div id="answer1" class="btn btn-primary form-control text-center answer"></div>
+                </div>
+                <div class="row">
+                    <div id="answer2" class="btn btn-danger form-control text-center answer"></div>
+                </div>
+            </div>            
+            <div class="row" id="endgamediv">
+                <div id="endgame" class="btn btn-warning form-control text-center endgame">Конец игры</div>
             </div>
         </div>
     </div>
