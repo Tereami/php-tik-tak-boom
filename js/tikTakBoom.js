@@ -116,12 +116,12 @@ tikTakBoom = {
         this.state = 0;
         if (result === 'lose') {
             this.gameStatusField.innerText = `Вы проиграли!`;
-            this.boomTimer = 30;
         }
         if (result === 'won') {
             this.gameStatusField.innerText = `Вы выиграли!`;
         }
 
+        this.boomTimer = 30;
         this.textFieldQuestion.innerText = ``;
         this.textFieldAnswer1.innerText = ``;
         this.textFieldAnswer2.innerText = ``;
