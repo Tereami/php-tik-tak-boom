@@ -6,6 +6,9 @@ tikTakBoom = {
         textFieldQuestion,
         textFieldAnswer1,
         textFieldAnswer2,
+        textFieldAnswer3,
+        textFieldAnswer4,
+        textFieldAnswer5,
         startGamediv,
         endGamediv,
         playernum        
@@ -19,6 +22,9 @@ tikTakBoom = {
         this.textFieldQuestion = textFieldQuestion;
         this.textFieldAnswer1 = textFieldAnswer1;
         this.textFieldAnswer2 = textFieldAnswer2;
+        this.textFieldAnswer3 = textFieldAnswer3;
+        this.textFieldAnswer4 = textFieldAnswer4;
+        this.textFieldAnswer5 = textFieldAnswer5;
         this.startGameDiv = startGamediv;      
         this.endGameDiv = endGamediv;
         this.playerNum = playernum;
@@ -30,6 +36,9 @@ tikTakBoom = {
         this.endGameDiv.style.display = "none"; 
         this.textFieldAnswer1.style.display = "none";
         this.textFieldAnswer2.style.display = "none";
+        this.textFieldAnswer3.style.display = "none";
+        this.textFieldAnswer4.style.display = "none";
+        this.textFieldAnswer5.style.display = "none";
         this.playerNum.style.display = "block";   
         this.startGameDiv.style.display = "block";   
     },
@@ -38,6 +47,9 @@ tikTakBoom = {
         this.endGameDiv.style.display = "block"; 
         this.textFieldAnswer1.style.display = "block";
         this.textFieldAnswer2.style.display = "block";
+        this.textFieldAnswer3.style.display = "block";
+        this.textFieldAnswer4.style.display = "block";
+        this.textFieldAnswer5.style.display = "block";
     //    this.playerNum.style.display = "none";  
         //this.startGameDiv.style.display = "none";   
     },
@@ -81,7 +93,7 @@ tikTakBoom = {
     },
 
     turnOff(value) {
-        if (this.currentTask[value].result) {
+        if (value) {
             this.gameStatusField.innerText = 'Верно!';
             this.rightAnswers += 1;
         } else {
@@ -97,18 +109,63 @@ tikTakBoom = {
             this.finish('won');
         }
 
-        this.textFieldAnswer1.removeEventListener('click', answer1);
-        this.textFieldAnswer2.removeEventListener('click', answer2);        
+        this.textFieldAnswer1.removeEventListener('click',Boolean);
+        this.textFieldAnswer2.removeEventListener('click',Boolean); 
+        this.textFieldAnswer3.removeEventListener('click',Boolean);
+        this.textFieldAnswer4.removeEventListener('click',Boolean); 
+        this.textFieldAnswer5.removeEventListener('click',Boolean);     
     },
 
     printQuestion(task) {
         this.textFieldQuestion.innerText = task.question;
-        this.textFieldAnswer1.innerText = task.answer1.value;
-        this.textFieldAnswer2.innerText = task.answer2.value;
 
-        this.textFieldAnswer1.addEventListener('click', answer1 = () => this.turnOff('answer1'));
-        this.textFieldAnswer2.addEventListener('click', answer2 = () => this.turnOff('answer2'));
+        const map = getAnswersMap(task);
+        const answers = getAnswers(task);
+        const answersCount = answers.length;
+        
+        this.textFieldAnswer1.innerText = answers[0];
+        this.textFieldAnswer2.innerText = answers[1];
+        
+        this.textFieldAnswer1.addEventListener('click', answer1 = () => this.turnOff(map.get(answers[0])));
+        this.textFieldAnswer2.addEventListener('click', answer2 = () => this.turnOff(map.get(answers[1])));        
 
+        switch(answersCount)
+        {
+            case 2:
+                this.textFieldAnswer3.style.display = "none";
+                this.textFieldAnswer4.style.display = "none";
+                this.textFieldAnswer5.style.display = "none";
+                break;            
+            case 3:
+                this.textFieldAnswer3.innerText = answers[2];
+                this.textFieldAnswer3.addEventListener('click', answer3 = () => this.turnOff(map.get(answers[2])));
+                this.textFieldAnswer3.style.display = "block";
+                this.textFieldAnswer4.style.display = "none";
+                this.textFieldAnswer5.style.display = "none";
+                break
+            case 4:
+                this.textFieldAnswer3.innerText = answers[2];
+                this.textFieldAnswer4.innerText = answers[3];
+                this.textFieldAnswer3.addEventListener('click', answer3 = () => this.turnOff(map.get(answers[2])));
+                this.textFieldAnswer4.addEventListener('click', answer4 = () => this.turnOff(map.get(answers[3])));
+                this.textFieldAnswer3.style.display = "block";
+                this.textFieldAnswer4.style.display = "block";
+                this.textFieldAnswer5.style.display = "none";
+                break;
+            case 5:
+                this.textFieldAnswer3.innerText = answers[2];
+                this.textFieldAnswer4.innerText =answers[3];
+                this.textFieldAnswer5.innerText = answers[4];
+                this.textFieldAnswer3.addEventListener('click', answer3 = () => this.turnOff(map.get(answers[2])));
+                this.textFieldAnswer4.addEventListener('click', answer4 = () => this.turnOff(map.get(answers[3])));
+                this.textFieldAnswer5.addEventListener('click', answer5 = () => this.turnOff(map.get(answers[4])));
+                this.textFieldAnswer3.style.display = "block";
+                this.textFieldAnswer4.style.display = "block";
+                this.textFieldAnswer5.style.display = "block";
+                break;
+            default:
+                break;
+        }  
         this.currentTask = task;
     },
 
@@ -125,6 +182,9 @@ tikTakBoom = {
         this.textFieldQuestion.innerText = ``;
         this.textFieldAnswer1.innerText = ``;
         this.textFieldAnswer2.innerText = ``;
+        this.textFieldAnswer3.innerText = ``;
+        this.textFieldAnswer4.innerText = ``;
+        this.textFieldAnswer5.innerText = ``;
         this.hideGameControls();  
 
         console.log(this);
