@@ -12,7 +12,8 @@ tikTakBoom = {
     ) {
         this.boomTimer = 30;
         this.countOfPlayers = 2;
-        this.tasks = JSON.parse(tasks);
+        this.unparsedTasks = tasks;
+        this.tasks = undefined;
 
         this.timerField = timerField;
         this.gameStatusField = gameStatusField;
@@ -24,6 +25,64 @@ tikTakBoom = {
         this.playerNum = playernum;
 
         this.needRightAnswers = 3;
+    },
+
+    //Чтение и проверка JSON
+    readJSON(){
+        try{
+            //Попытка чтения файла
+            this.tasks = JSON.parse(tasks);  
+            //вопросов > 30
+            if (this.tasks.length < 29){
+                throw new Error('Недостаточно вопросов!');
+            }
+            
+            let i=0;
+            //Проверка файла на соответствие условиям           
+            for(quest of this.tasks){
+                i++;
+                //Проверка наличия всех папаметров объекта
+                if(!quest.hasOwnProperty(`question`)){
+                    throw new Error(`Не хватает впороса в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer1`)){
+                    throw new Error(`Не хватает ответа 1 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer2`)){
+                    throw new Error(`Не хватает ответа 2 в вопросе №${i}`);
+                }
+                //Проверка наличия параеметров в ответах
+                let qAnswer1 = quest.answer1;
+                let qAnswer2 = quest.answer2;           
+                if(!qAnswer1.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №1 в вопросе №${i}`);
+                }
+                if(!qAnswer1.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №1 в вопросе №${i}`);
+                }
+                if(!qAnswer2.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №2 в вопросе №${i}`);
+                }
+                if(!qAnswer2.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №2 в вопросе №${i}`);
+                }
+
+                //В каждом вопросе есть текст
+                if(quest.question.length===0){ throw new Error(`Отсутствует тест вопроса в вопросе №${i}!`);}
+                //во всех ответах заполнены данные
+                if(typeof(qAnswer1.result) !== `boolean`){ throw new Error(`Верность ответа ответа №1 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer2.result) !== `boolean`){ throw new Error(`Верность ответа ответа №2 в вопросе №${i} не bool!`);}
+                if(qAnswer1.value.length===0){ throw new Error(`Отсутствует результат ответа №1 в вопросе №${i}!`);}                 
+                if(qAnswer2.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}  
+                //нет вопроса с двумя правильными и неправильными ответами
+                if(qAnswer1.result === qAnswer2.result) { throw new Error(`Ответы совпадают в вопросе №${i}!`);}
+            }
+
+            return true;   
+        } catch(e) {
+            alert("Игру невозможно начать:" +e.message);           
+            return false;
+        }
     },
 
     hideGameControls(){
@@ -38,14 +97,20 @@ tikTakBoom = {
         this.endGameDiv.style.display = "block"; 
         this.textFieldAnswer1.style.display = "block";
         this.textFieldAnswer2.style.display = "block";
-    //    this.playerNum.style.display = "none";  
+        //this.playerNum.style.display = "none";  
         //this.startGameDiv.style.display = "none";   
     },
 
     run() {
-        this.hideGameControls();     
-        this.startGameDiv.addEventListener('click', startGame = () => this.startTimer());
-    },
+        if (this.readJSON()){
+            this.hideGameControls();     
+            this.startGameDiv.addEventListener('click', startGame = () => this.startTimer());               
+        }
+        else {
+            this.startGameDiv.style.display = "none";   
+            this.playerNum.style.display = "none";
+        };        
+   },
   
     //Время подготовки игрока
     startTimer(){
