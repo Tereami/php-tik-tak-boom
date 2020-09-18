@@ -12,7 +12,7 @@ const tasks = `
         {
             "question": "Как зовут крокодила, лучшего друга Чебурашки?",
             "answer1": { "result": false, "value": "Данди" },
-            "answer2": { "result": false, "value": "Гена" },
+            "answer2": { "result": true, "value": "Гена" },
             "answer3": { "result": false, "value": "Чип" },
             "answer4": { "result": false, "value": "Дейл" },
             "answer5": { "result": false, "value": "Скрудж" },
@@ -106,7 +106,7 @@ const tasks = `
             "answer3": { "result": false, "value": "Преобразование целого числа к числу с плавающей точкой" },
             "answer4": { "result": false, "value":  "Преобразование объекта в число"},
             "answer5": { "result": false, "value": "Результат работы хеш-функции" },
-            "answer6": { "result": false, "value":  "Передозтровка сериалами"}
+            "answer6": { "result": false, "value":  "Передозировка сериалами"}
         }, 
         {
             "question": "В каком иде спорта используется бита и мяч?",

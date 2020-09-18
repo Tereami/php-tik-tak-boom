@@ -15,7 +15,8 @@ tikTakBoom = {
     ) {
         this.boomTimer = 30;
         this.countOfPlayers = 2;
-        this.tasks = JSON.parse(tasks);
+        this.unparsedTasks = tasks;
+        this.tasks = undefined;
 
         this.timerField = timerField;
         this.gameStatusField = gameStatusField;
@@ -30,6 +31,112 @@ tikTakBoom = {
         this.playerNum = playernum;
 
         this.needRightAnswers = 3;
+    },
+
+    //Чтение и проверка JSON
+    readJSON(){
+        try{
+            //Попытка чтения файла
+            this.tasks = JSON.parse(tasks);  
+            //вопросов > 30
+            if (this.tasks.length < 29){
+                throw new Error('Недостаточно вопросов!');
+            }
+            
+            let i=0;
+            //Проверка файла на соответствие условиям           
+            for(quest of this.tasks){
+                i++;
+                //Проверка наличия всех папаметров объекта
+                if(!quest.hasOwnProperty(`question`)){
+                    throw new Error(`Не хватает вопроса в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer1`)){
+                    throw new Error(`Не хватает ответа 1 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer2`)){
+                    throw new Error(`Не хватает ответа 2 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer3`)){
+                    throw new Error(`Не хватает ответа 3 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer4`)){
+                    throw new Error(`Не хватает ответа 4 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer5`)){
+                    throw new Error(`Не хватает ответа 5 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer6`)){
+                    throw new Error(`Не хватает ответа 6 в вопросе №${i}`);
+                }
+                //Проверка наличия параеметров в ответах
+                let qAnswer1 = quest.answer1;
+                let qAnswer2 = quest.answer2;
+                let qAnswer3 = quest.answer2; 
+                let qAnswer4 = quest.answer2; 
+                let qAnswer5 = quest.answer2; 
+                let qAnswer6 = quest.answer2;         
+                if(!qAnswer1.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №1 в вопросе №${i}`);
+                }
+                if(!qAnswer1.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №1 в вопросе №${i}`);
+                }
+                if(!qAnswer2.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №2 в вопросе №${i}`);
+                }
+                if(!qAnswer2.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №2 в вопросе №${i}`);
+                }
+                if(!qAnswer3.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №3 в вопросе №${i}`);
+                }
+                if(!qAnswer3.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №3 в вопросе №${i}`);
+                }
+                if(!qAnswer4.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №4 в вопросе №${i}`);
+                }
+                if(!qAnswer4.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №4 в вопросе №${i}`);
+                }
+                if(!qAnswer5.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №5 в вопросе №${i}`);
+                }
+                if(!qAnswer5.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №5 в вопросе №${i}`);
+                }
+                if(!qAnswer6.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №6 в вопросе №${i}`);
+                }
+                if(!qAnswer6.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №6 в вопросе №${i}`);
+                }
+
+                //В каждом вопросе есть текст
+                if(quest.question.length===0){ throw new Error(`Отсутствует тест вопроса в вопросе №${i}!`);}
+                //во всех ответах заполнены данные
+                if(typeof(qAnswer1.result) !== `boolean`){ throw new Error(`Верность ответа ответа №1 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer2.result) !== `boolean`){ throw new Error(`Верность ответа ответа №2 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer3.result) !== `boolean`){ throw new Error(`Верность ответа ответа №3 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer4.result) !== `boolean`){ throw new Error(`Верность ответа ответа №4 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer5.result) !== `boolean`){ throw new Error(`Верность ответа ответа №5 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer6.result) !== `boolean`){ throw new Error(`Верность ответа ответа №6 в вопросе №${i} не bool!`);}
+                if(qAnswer1.value.length===0){ throw new Error(`Отсутствует результат ответа №1 в вопросе №${i}!`);}                 
+                if(qAnswer2.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer3.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer4.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer5.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer6.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                //нет вопроса с двумя правильными и неправильными ответами
+                if(qAnswer1.result === qAnswer2.result) { throw new Error(`Ответы совпадают в вопросе №${i}!`);}
+            }
+
+            return true;   
+        } catch(e) {
+            alert("Игру невозможно начать:" +e.message);           
+            return false;
+        }
     },
 
     hideGameControls(){
@@ -55,9 +162,15 @@ tikTakBoom = {
     },
 
     run() {
-        this.hideGameControls();     
-        this.startGameDiv.addEventListener('click', startGame = () => this.startTimer());
-    },
+        if (this.readJSON()){
+            this.hideGameControls();     
+            this.startGameDiv.addEventListener('click', startGame = () => this.startTimer());               
+        }
+        else {
+            this.startGameDiv.style.display = "none";   
+            this.playerNum.style.display = "none";
+        };        
+   },
   
     //Время подготовки игрока
     startTimer(){
