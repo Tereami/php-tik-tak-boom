@@ -6,6 +6,9 @@ tikTakBoom = {
         textFieldQuestion,
         textFieldAnswer1,
         textFieldAnswer2,
+        textFieldAnswer3,
+        textFieldAnswer4,
+        textFieldAnswer5,
         startGamediv,
         endGamediv,
         playernum        
@@ -20,6 +23,9 @@ tikTakBoom = {
         this.textFieldQuestion = textFieldQuestion;
         this.textFieldAnswer1 = textFieldAnswer1;
         this.textFieldAnswer2 = textFieldAnswer2;
+        this.textFieldAnswer3 = textFieldAnswer3;
+        this.textFieldAnswer4 = textFieldAnswer4;
+        this.textFieldAnswer5 = textFieldAnswer5;
         this.startGameDiv = startGamediv;      
         this.endGameDiv = endGamediv;
         this.playerNum = playernum;
@@ -43,7 +49,7 @@ tikTakBoom = {
                 i++;
                 //Проверка наличия всех папаметров объекта
                 if(!quest.hasOwnProperty(`question`)){
-                    throw new Error(`Не хватает впороса в вопросе №${i}`);
+                    throw new Error(`Не хватает вопроса в вопросе №${i}`);
                 }
                 if(!quest.hasOwnProperty(`answer1`)){
                     throw new Error(`Не хватает ответа 1 в вопросе №${i}`);
@@ -51,9 +57,25 @@ tikTakBoom = {
                 if(!quest.hasOwnProperty(`answer2`)){
                     throw new Error(`Не хватает ответа 2 в вопросе №${i}`);
                 }
+                if(!quest.hasOwnProperty(`answer3`)){
+                    throw new Error(`Не хватает ответа 3 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer4`)){
+                    throw new Error(`Не хватает ответа 4 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer5`)){
+                    throw new Error(`Не хватает ответа 5 в вопросе №${i}`);
+                }
+                if(!quest.hasOwnProperty(`answer6`)){
+                    throw new Error(`Не хватает ответа 6 в вопросе №${i}`);
+                }
                 //Проверка наличия параеметров в ответах
                 let qAnswer1 = quest.answer1;
-                let qAnswer2 = quest.answer2;           
+                let qAnswer2 = quest.answer2;
+                let qAnswer3 = quest.answer2; 
+                let qAnswer4 = quest.answer2; 
+                let qAnswer5 = quest.answer2; 
+                let qAnswer6 = quest.answer2;         
                 if(!qAnswer1.hasOwnProperty(`result`)){
                     throw new Error(`Не хватает верности ответа в ответе №1 в вопросе №${i}`);
                 }
@@ -66,14 +88,46 @@ tikTakBoom = {
                 if(!qAnswer2.hasOwnProperty(`value`)){
                     throw new Error(`Не хватает значения результата в ответе №2 в вопросе №${i}`);
                 }
+                if(!qAnswer3.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №3 в вопросе №${i}`);
+                }
+                if(!qAnswer3.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №3 в вопросе №${i}`);
+                }
+                if(!qAnswer4.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №4 в вопросе №${i}`);
+                }
+                if(!qAnswer4.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №4 в вопросе №${i}`);
+                }
+                if(!qAnswer5.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №5 в вопросе №${i}`);
+                }
+                if(!qAnswer5.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №5 в вопросе №${i}`);
+                }
+                if(!qAnswer6.hasOwnProperty(`result`)){
+                    throw new Error(`Не хватает верности ответа в ответе №6 в вопросе №${i}`);
+                }
+                if(!qAnswer6.hasOwnProperty(`value`)){
+                    throw new Error(`Не хватает значения результата в ответе №6 в вопросе №${i}`);
+                }
 
                 //В каждом вопросе есть текст
                 if(quest.question.length===0){ throw new Error(`Отсутствует тест вопроса в вопросе №${i}!`);}
                 //во всех ответах заполнены данные
                 if(typeof(qAnswer1.result) !== `boolean`){ throw new Error(`Верность ответа ответа №1 в вопросе №${i} не bool!`);}
                 if(typeof(qAnswer2.result) !== `boolean`){ throw new Error(`Верность ответа ответа №2 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer3.result) !== `boolean`){ throw new Error(`Верность ответа ответа №3 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer4.result) !== `boolean`){ throw new Error(`Верность ответа ответа №4 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer5.result) !== `boolean`){ throw new Error(`Верность ответа ответа №5 в вопросе №${i} не bool!`);}
+                if(typeof(qAnswer6.result) !== `boolean`){ throw new Error(`Верность ответа ответа №6 в вопросе №${i} не bool!`);}
                 if(qAnswer1.value.length===0){ throw new Error(`Отсутствует результат ответа №1 в вопросе №${i}!`);}                 
-                if(qAnswer2.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}  
+                if(qAnswer2.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer3.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer4.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer5.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer6.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
                 //нет вопроса с двумя правильными и неправильными ответами
                 if(qAnswer1.result === qAnswer2.result) { throw new Error(`Ответы совпадают в вопросе №${i}!`);}
             }
@@ -89,6 +143,9 @@ tikTakBoom = {
         this.endGameDiv.style.display = "none"; 
         this.textFieldAnswer1.style.display = "none";
         this.textFieldAnswer2.style.display = "none";
+        this.textFieldAnswer3.style.display = "none";
+        this.textFieldAnswer4.style.display = "none";
+        this.textFieldAnswer5.style.display = "none";
         this.playerNum.style.display = "block";   
         this.startGameDiv.style.display = "block";   
     },
@@ -97,7 +154,10 @@ tikTakBoom = {
         this.endGameDiv.style.display = "block"; 
         this.textFieldAnswer1.style.display = "block";
         this.textFieldAnswer2.style.display = "block";
-        //this.playerNum.style.display = "none";  
+        this.textFieldAnswer3.style.display = "block";
+        this.textFieldAnswer4.style.display = "block";
+        this.textFieldAnswer5.style.display = "block";
+    //    this.playerNum.style.display = "none";  
         //this.startGameDiv.style.display = "none";   
     },
 
@@ -146,7 +206,7 @@ tikTakBoom = {
     },
 
     turnOff(value) {
-        if (this.currentTask[value].result) {
+        if (value) {
             this.gameStatusField.innerText = 'Верно!';
             this.rightAnswers += 1;
         } else {
@@ -162,18 +222,63 @@ tikTakBoom = {
             this.finish('won');
         }
 
-        this.textFieldAnswer1.removeEventListener('click', answer1);
-        this.textFieldAnswer2.removeEventListener('click', answer2);        
+        this.textFieldAnswer1.removeEventListener('click',Boolean);
+        this.textFieldAnswer2.removeEventListener('click',Boolean); 
+        this.textFieldAnswer3.removeEventListener('click',Boolean);
+        this.textFieldAnswer4.removeEventListener('click',Boolean); 
+        this.textFieldAnswer5.removeEventListener('click',Boolean);     
     },
 
     printQuestion(task) {
         this.textFieldQuestion.innerText = task.question;
-        this.textFieldAnswer1.innerText = task.answer1.value;
-        this.textFieldAnswer2.innerText = task.answer2.value;
 
-        this.textFieldAnswer1.addEventListener('click', answer1 = () => this.turnOff('answer1'));
-        this.textFieldAnswer2.addEventListener('click', answer2 = () => this.turnOff('answer2'));
+        const map = getAnswersMap(task);
+        const answers = getAnswers(task);
+        const answersCount = answers.length;
+        
+        this.textFieldAnswer1.innerText = answers[0];
+        this.textFieldAnswer2.innerText = answers[1];
+        
+        this.textFieldAnswer1.addEventListener('click', answer1 = () => this.turnOff(map.get(answers[0])));
+        this.textFieldAnswer2.addEventListener('click', answer2 = () => this.turnOff(map.get(answers[1])));        
 
+        switch(answersCount)
+        {
+            case 2:
+                this.textFieldAnswer3.style.display = "none";
+                this.textFieldAnswer4.style.display = "none";
+                this.textFieldAnswer5.style.display = "none";
+                break;            
+            case 3:
+                this.textFieldAnswer3.innerText = answers[2];
+                this.textFieldAnswer3.addEventListener('click', answer3 = () => this.turnOff(map.get(answers[2])));
+                this.textFieldAnswer3.style.display = "block";
+                this.textFieldAnswer4.style.display = "none";
+                this.textFieldAnswer5.style.display = "none";
+                break
+            case 4:
+                this.textFieldAnswer3.innerText = answers[2];
+                this.textFieldAnswer4.innerText = answers[3];
+                this.textFieldAnswer3.addEventListener('click', answer3 = () => this.turnOff(map.get(answers[2])));
+                this.textFieldAnswer4.addEventListener('click', answer4 = () => this.turnOff(map.get(answers[3])));
+                this.textFieldAnswer3.style.display = "block";
+                this.textFieldAnswer4.style.display = "block";
+                this.textFieldAnswer5.style.display = "none";
+                break;
+            case 5:
+                this.textFieldAnswer3.innerText = answers[2];
+                this.textFieldAnswer4.innerText =answers[3];
+                this.textFieldAnswer5.innerText = answers[4];
+                this.textFieldAnswer3.addEventListener('click', answer3 = () => this.turnOff(map.get(answers[2])));
+                this.textFieldAnswer4.addEventListener('click', answer4 = () => this.turnOff(map.get(answers[3])));
+                this.textFieldAnswer5.addEventListener('click', answer5 = () => this.turnOff(map.get(answers[4])));
+                this.textFieldAnswer3.style.display = "block";
+                this.textFieldAnswer4.style.display = "block";
+                this.textFieldAnswer5.style.display = "block";
+                break;
+            default:
+                break;
+        }  
         this.currentTask = task;
     },
 
@@ -190,6 +295,9 @@ tikTakBoom = {
         this.textFieldQuestion.innerText = ``;
         this.textFieldAnswer1.innerText = ``;
         this.textFieldAnswer2.innerText = ``;
+        this.textFieldAnswer3.innerText = ``;
+        this.textFieldAnswer4.innerText = ``;
+        this.textFieldAnswer5.innerText = ``;
         this.hideGameControls();  
 
         console.log(this);

@@ -22,8 +22,7 @@ span{
 }
 
 .timer-output{
-    width: 40%;
-    background: #222;
+    width: auto;
     color: darkred;
     font-size: 64px;
     text-align: center;
@@ -32,12 +31,18 @@ span{
 }
 
 .timer-output-wrapper{
-    width:100%;
+    position: absolute;
+    margin-top: 135px;
+    margin-left: 220px;
+    width:300px;
     display: flex;
     flex-direction: row;
     align-content: center;
     justify-content: center;
-    background-color: #222;
+}
+
+.bombImage {
+    width: 100%;
 }
 
 .col{
