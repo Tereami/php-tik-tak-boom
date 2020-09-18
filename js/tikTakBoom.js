@@ -77,11 +77,12 @@ tikTakBoom = {
                 let qAnswer5 = quest.answer2;
                 let qAnswer6 = quest.answer2;
                 if (!qAnswer1.hasOwnProperty(`result`)) {
-                let qAnswer3 = quest.answer3; 
-                let qAnswer4 = quest.answer4; 
-                let qAnswer5 = quest.answer5; 
-                let qAnswer6 = quest.answer6;         
-                if(!qAnswer1.hasOwnProperty(`result`)){
+                    let qAnswer3 = quest.answer3;
+                    let qAnswer4 = quest.answer4;
+                    let qAnswer5 = quest.answer5;
+                    let qAnswer6 = quest.answer6;
+                }
+                if (!qAnswer1.hasOwnProperty(`result`)) {
                     throw new Error(`Не хватает верности ответа в ответе №1 в вопросе №${i}`);
                 }
                 if (!qAnswer1.hasOwnProperty(`value`)) {
@@ -135,15 +136,15 @@ tikTakBoom = {
                 if (qAnswer6.value.length === 0) { throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`); }
                 //нет вопроса с двумя правильными и неправильными ответами
                 if (qAnswer1.result === qAnswer2.result) { throw new Error(`Ответы совпадают в вопросе №${i}!`); }
-                let qAnsw = [qAnswer1.result,qAnswer2.result,qAnswer3.result,qAnswer4.result,qAnswer5.result,qAnswer6.result];
+                let qAnsw = [qAnswer1.result, qAnswer2.result, qAnswer3.result, qAnswer4.result, qAnswer5.result, qAnswer6.result];
                 let trueAnsw = false;
-                const err = ()=> {throw new Error(`Как минимум 2 верных ответа в вопросе №${i}!`)};
-                for (j=0;j<qAnsw.length;j++){
-                    if(qAnsw[j]) {
-                        trueAnsw ? err():trueAnsw=true;
+                const err = () => { throw new Error(`Как минимум 2 верных ответа в вопросе №${i}!`) };
+                for (j = 0; j < qAnsw.length; j++) {
+                    if (qAnsw[j]) {
+                        trueAnsw ? err() : trueAnsw = true;
                     }
                 }
-                if (!trueAnsw) {throw new Error(`Нет верного ответа в вопросе №${i}!`)}
+                if (!trueAnsw) { throw new Error(`Нет верного ответа в вопросе №${i}!`) }
                 //if(qAnswer1.result === qAnswer2.result) { throw new Error(`Ответы совпадают в вопросе №${i}!`);}
             }
 
