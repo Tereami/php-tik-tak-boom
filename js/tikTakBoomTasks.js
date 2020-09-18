@@ -115,7 +115,7 @@ const tasks = `
             "answer3": { "result": false, "value": "Американский футбол"},
             "answer4": { "result": false, "value": "Гандбол"},
             "answer5": { "result": false, "value": "Лапта"},
-            "answer6": { "result": false, "value": "Воллейбол"}
+            "answer6": { "result": false, "value": "Волейбол"}
         },             
         {
             "question": "Кто съел колобка?",
@@ -235,7 +235,7 @@ const tasks = `
             "answer6": { "result": false, "value": "12"}
         },    
         {
-            "question": "Сколько игроков в комнаде по кёрлингу?",
+            "question": "Сколько игроков в команде по кёрлингу?",
             "answer1": { "result": false, "value": "5"},
             "answer2": { "result": true, "value": "4"},
             "answer3": { "result": false, "value": "6"},
