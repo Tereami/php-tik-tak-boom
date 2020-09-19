@@ -1,5 +1,5 @@
-//first answer is always right
-const tasks = `
+//первый ответ в списке - верный
+const tasksJson = `
     [   
         {
             "question": "2 * 2 = ",

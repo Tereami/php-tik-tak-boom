@@ -41,6 +41,10 @@ span{
     justify-content: center;
 }
 
+.number-input {
+    margin-right: 1em;
+}
+
 .bombImage {
     width: 100%;
 }
@@ -56,6 +60,8 @@ span{
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+
 
 #gameStatusField{
     width: 100%;
