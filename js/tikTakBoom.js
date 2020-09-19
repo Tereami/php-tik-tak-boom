@@ -15,7 +15,7 @@ tikTakBoom = {
     ) {
         this.boomTimer = 30;
         this.countOfPlayers = 2;
-        this.unparsedTasks = tasks;
+        this.unparsedTasks = undefined;
         this.tasks = undefined;
 
         this.timerField = timerField;
@@ -38,6 +38,7 @@ tikTakBoom = {
         try{
             //Попытка чтения файла
             this.tasks = JSON.parse(tasks);  
+            this.unparsedTasks = tasks;
             //вопросов > 30
             if (this.tasks.length < 29){
                 throw new Error('Недостаточно вопросов!');
