@@ -11,7 +11,8 @@ tikTakBoom = {
         textFieldAnswer5,
         startGamediv,
         endGamediv,
-        playernum
+        playernum,
+        _playertruenum
     ) {
         this.boomTimer = 30;
         this.countOfPlayers = 2;
@@ -28,7 +29,8 @@ tikTakBoom = {
         this.textFieldAnswer5 = textFieldAnswer5;
         this.startGameDiv = startGamediv;
         this.endGameDiv = endGamediv;
-        this.playerNum = playernum; //имена переменных специально выбраны так, чтобы у людей возг взрывался
+        this.playerNum = playernum;
+        this.playerTrueNum = _playertruenum;
 
         this.needRightAnswers = 3;
     },
@@ -156,9 +158,9 @@ tikTakBoom = {
     },
 
     hideGameControls() {
-        this.endGameDiv.style.display = "none";
-        this.textFieldAnswer1.style.display = "none";
-        this.textFieldAnswer2.style.display = "none";
+        this.endGameDiv.visibility = hidden; // .style.display = "none";
+        this.textFieldAnswer1.visibility = hidden; //.style.display = "none";
+        this.textFieldAnswer2.visibility = hidden; //.style.display = "none";
         this.textFieldAnswer3.style.display = "none";
         this.textFieldAnswer4.style.display = "none";
         this.textFieldAnswer5.style.display = "none";
@@ -201,7 +203,7 @@ tikTakBoom = {
     },
 
     startQueeze() {
-        this.initPlayers(this.playerNum.value);
+        this.initPlayers(this.playerTrueNum.value);
         this.currentPlayerNumber = 0;
         this.rightAnswers = 0;
         this.gameStatusField.innerText = `Игра идёт`;
