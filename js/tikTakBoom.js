@@ -14,7 +14,7 @@ tikTakBoom = {
         playernum
     ) {
         this.boomTimer = 30;
-        this.countOfPlayers = 2;
+        this.countOfPlayers = playernum.value;
         this.unparsedTasks = undefined;
         this.tasks = undefined;
 
@@ -28,7 +28,7 @@ tikTakBoom = {
         this.textFieldAnswer5 = textFieldAnswer5;
         this.startGameDiv = startGamediv;
         this.endGameDiv = endGamediv;
-        this.playerNum = playernum; //имена переменных специально выбраны так, чтобы у людей возг взрывался
+        this.playerNum = playernum;
 
         this.needRightAnswers = 3;
     },
@@ -73,10 +73,10 @@ tikTakBoom = {
                 //Проверка наличия параеметров в ответах
                 let qAnswer1 = quest.answer1;
                 let qAnswer2 = quest.answer2;
-                let qAnswer3 = quest.answer2;
-                let qAnswer4 = quest.answer2;
-                let qAnswer5 = quest.answer2;
-                let qAnswer6 = quest.answer2;
+                let qAnswer3 = quest.answer3;
+                let qAnswer4 = quest.answer4;
+                let qAnswer5 = quest.answer5;
+                let qAnswer6 = quest.answer6;
                 if (!qAnswer1.hasOwnProperty(`result`)) {
                     let qAnswer3 = quest.answer3;
                     let qAnswer4 = quest.answer4;
@@ -140,7 +140,8 @@ tikTakBoom = {
                 let qAnsw = [qAnswer1.result, qAnswer2.result, qAnswer3.result, qAnswer4.result, qAnswer5.result, qAnswer6.result];
                 let trueAnsw = false;
                 const err = () => { throw new Error(`Как минимум 2 верных ответа в вопросе №${i}!`) };
-                for (j = 0; j < qAnsw.length; j++) {
+
+                for (let j = 0; j < qAnsw.length; j++) {
                     if (qAnsw[j]) {
                         trueAnsw ? err() : trueAnsw = true;
                     }
@@ -202,9 +203,10 @@ tikTakBoom = {
     },
 
     startQueeze() {
-        this.initPlayers(this.playerNum.value);
+        this.initPlayers(this.countOfPlayers);
         this.currentPlayerNumber = 0;
         this.rightAnswers = 0;
+        this.state = 1;
         this.gameStatusField.innerText = `Игра идёт`;
         this.showGameControls();
         this.endGameDiv.addEventListener('click', endGame = () => this.finish(`lose`));
@@ -221,17 +223,17 @@ tikTakBoom = {
 
         this.tasks.splice(taskNumber, 1);
 
-        //this.state = (this.state === this.countOfPlayers) ? 1 : this.state + 1;
+        this.state = (this.state === this.countOfPlayers) ? 1 : this.state + 1;
     },
 
     turnOff(value) {
         if (value) {
             this.gameStatusField.innerText = 'Верно!';
             //this.rightAnswers += 1;
-            players[currentPlayerNumber].score++;
+            players[this.currentPlayerNumber].score++;
         } else {
             this.gameStatusField.innerText = 'Неверно!';
-            players[currentPlayerNumber].score--;
+            players[this.currentPlayerNumber].score--;
         }
         if (this.rightAnswers < this.needRightAnswers) {
             if (this.tasks.length === 0) {
@@ -303,6 +305,7 @@ tikTakBoom = {
     },
 
     finish(result = 'lose') {
+        this.state = 0;
         this.currentPlayerNumber = 0;
         if (result === 'lose') {
             this.gameStatusField.innerText = `Вы проиграли!`;
@@ -319,33 +322,32 @@ tikTakBoom = {
         this.textFieldAnswer4.innerText = ``;
         this.textFieldAnswer5.innerText = ``;
         this.hideGameControls();
-
-        console.log(this);
     },
 
     timer() {
-        this.boomTimer -= 1;
-        let sec = this.boomTimer % 60;
-        let min = (this.boomTimer - sec) / 60;
-        sec = (sec >= 10) ? sec : '0' + sec;
-        min = (min >= 10) ? min : '0' + min;
-        this.timerField.innerText = `${min}:${sec}`;
-
-        if (this.boomTimer > 0) {
-            setTimeout(
-                () => {
-                    this.timer()
-                },
-                1000,
-            )
-        } else {
-            this.finish('lose');
+        if (this.state){
+            this.boomTimer -= 1;
+            let sec = this.boomTimer % 60;
+            let min = (this.boomTimer - sec) / 60;
+            sec = (sec >= 10) ? sec : '0' + sec;
+            min = (min >= 10) ? min : '0' + min;
+            this.timerField.innerText = `${min}:${sec}`;
+    
+            if (this.boomTimer > 0) {
+                setTimeout(
+                    () => {
+                        this.timer()
+                    },
+                    1000,
+                )
+            } else {
+                this.finish('lose');
+            }    
         }
-
     },
 
     initPlayers(count) {
-        for (var i = 0; i < count; i++) {
+        for (var i = 1; i <= count; i++) {
             var player = {
                 name: `Игрок ${i}`,
                 remainErrors: 3,
@@ -356,12 +358,12 @@ tikTakBoom = {
         }
     },
     getNextPlayer() {
-        if (state < players.count - 1) {
-            state++;
+        if (this.state < players.count - 1) {
+            this.state++;
         } else {
-            state = 0;
+            this.state = 0;
         }
-        return players[state];
+        return players[this.state];
     }
 };
 
