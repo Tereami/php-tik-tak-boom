@@ -1,29 +1,36 @@
-window.onload = function () {
-    init(tasksJson);
-}
-
 //не знаю почему, но когда свойства объявлялись внутри объекта tikTakBoom - они превращались в undefined после вызова по таймеру
 //если объявлять вне объекта то всё норм
 tasks = [];
 players = [];
 gameTime = 40;
 errorsAllow = 3;
+currentPlayerNumber = 0;
 
-step = 0;
-function getCurrentPlayerNumber() {
-    return step % players.length;
-}
-
-startCountdown = (time, func) => {
-    if(tasks.length == 0 || players.length == 0) return;
-    if (time > 1) {
-        time -= 1;
-        timerField.innerText = convertSecondsToTime(time);
-        setTimeout(startCountdown, 1000, time, func);
+var secondsToExplode = 0;
+var timerIsPaused = false;
+bombTimer = () => {
+    if (secondsToExplode > 1) {
+        if (!timerIsPaused) {
+            secondsToExplode--;
+            timerField.innerText = convertSecondsToTime(secondsToExplode);
+        } 
+        setTimeout(bombTimer, 1000);
     } else {
-        func();
+        finish("lose");
     }
 };
+
+prepareTimer = (seconds) => {
+    if (seconds > 0) {
+        timerIsPaused = true;
+        gameStatusField.innerText += `${seconds}... `
+        seconds--;
+        setTimeout(prepareTimer, 1000, seconds);
+    } else {
+        timerIsPaused = false;
+        startQueeze();
+    }
+}
 
 gameStatusField = document.getElementById('gameStatusField');
 startSettingsDiv = document.getElementById('startSettings');
@@ -35,6 +42,11 @@ gamesButtonsList = document.getElementById('gameButtonsDiv');
 endGameButton = document.getElementById('endgamediv');
 
 
+window.onload = function () {
+    bombDiv.hidden = true;
+    init(tasksJson);
+}
+
 function init(_tasksJson) {
     if (readJSON(_tasksJson)) {
         startGameButton.addEventListener('click', startGame);
@@ -43,7 +55,6 @@ function init(_tasksJson) {
     else {
         alert("Ошибка при запуске игры");
     }
-    bombDiv.hidden = true;
 }
 
 //Чтение и проверка JSON
@@ -78,65 +89,68 @@ function startGame() {
     bombDiv.hidden = false;
     startSettingsDiv.hidden = true;
     startGameButton.hidden = true;
-    gameTime = document.getElementById('time').value;
+    secondsToExplode = document.getElementById('time').value;
     numberOfPlayers = document.getElementById('number').value;
-    initPlayers(numberOfPlayers);
-
     errorsAllow = document.getElementById('allowErrors').value;
+    players = createPlayers(numberOfPlayers, errorsAllow);
 
-    gameStatusField.innerText = `${players[0].name}, приготовьтесь...`;
-    startCountdown(4, startQueeze);
+    gameStatusField.innerText = `${players[currentPlayerNumber].name}, приготовьтесь...`;
+    prepareTimer(3);
+    bombTimer();
 }
 
 //задать вопрос
 function startQueeze() {
-    if (tasks.length == 0) {
-        finish("win");
-        return;
-    }
-
-    var player = players[getCurrentPlayerNumber()];
-    gameStatusField.innerText += `Отвечает игрок ${player.name}`;
+    clearTimeout(prepareTimer);
+    var player = players[currentPlayerNumber];
+    gameStatusField.innerText = `Отвечает игрок ${player.name}`;
 
     const taskNumber = randomIntNumber(0, tasks.length - 1);
     printQuestion(tasks[taskNumber]);
     tasks.splice(taskNumber, 1);
-    startCountdown(gameTime, wrongAnswer);
+    timerTime = player.remainSeconds;
 }
 
 function clickAnswer() {
     let clickedButton = event.target;
-    let text = clickedButton.innerText;
-    if (text.includes("$")) {
+    let text = clickedButton.innerHTML;
+    if (text.includes('<wbr>')) {
+        clickedButton.className = "btn btn-success form-control text-center answer";
         rightAnswer();
     } else {
+        clickedButton.className = "btn btn-danger form-control text-center answer";
         wrongAnswer();
     }
 }
 
 function wrongAnswer() {
-    gameStatusField.innerText = 'Неправильно!';
-    var playerNumber = getCurrentPlayerNumber();
-    players[playerNumber].remainErrors--;
-
-    if (players[playerNumber].remainErrors <= 0) {
-        players.splice(playerNumber, 1);
-        gameStatusField.innerText += ` Игрок ${players[playerNumber].name} выбывает!`;
+    players[currentPlayerNumber].remainErrors--;
+    gameStatusField.innerText = `Неправильно!`;
+    if (players[currentPlayerNumber].remainErrors > 0) {
+        currentPlayerNumber = currentPlayerNumber == (players.length - 1) ? 0 : currentPlayerNumber + 1;
+    } else {
+        gameStatusField.innerText += ` Игрок ${players[currentPlayerNumber].name} выбывает!`;
+        players.splice(currentPlayerNumber, 1);
     }
     if (players.length == 0) {
         finish("lose");
         return;
     }
 
-    step++;
-    startQueeze();
+    gameStatusField.innerText += `Переход хода к игроку  ${players[currentPlayerNumber].name} через `;
+    prepareTimer(3);
 }
 
 function rightAnswer() {
-    gameStatusField.innerText = 'Правильно!';
-    var playerNumber = getCurrentPlayerNumber();
+    if (tasks.length == 0) {
+        finish("win");
+        return;
+    }
+    gameStatusField.innerText = 'Правильно! Следующий вопрос через ';
+    var playerNumber = currentPlayerNumber;
     players[playerNumber].score++;
-    startQueeze();
+    secondsToExplode += 5;
+    prepareTimer(3);
 }
 
 function printQuestion(task) {
@@ -153,28 +167,17 @@ function printQuestion(task) {
 
 function finish(type) {
     if (type == "win") {
-        gameStatusField.innerText += "Ура! Вы победили! Баллы:";
-        for (player of players) {
-            gameStatusField.innerText += `${player.name}: ${player.score}, `;
-        }
+        gameStatusField.innerText = "Ура! Вы победили! ";
     } else {
         gameStatusField.innerText = "Ваша команда проиграла!";
     }
+    for (player of players) {
+        gameStatusField.innerText += `${player.name}: ${player.score}, `;
+    }
+    clearTimeout(bombTimer);
     startSettingsDiv.hidden = true;
     startGameButton.hidden = true;
     endGameButton.hidden = true;
     textFieldQuestion.innerText = "";
     gamesButtonsList.innerHTML = "";
-}
-
-function initPlayers(count) {
-    for (var i = 0; i < count; i++) {
-        var player = {
-            name: `Игрок ${i}`,
-            remainErrors: 3,
-            remainSeconds: 30,
-            score: 0
-        };
-        players.push(player)
-    }
 }
