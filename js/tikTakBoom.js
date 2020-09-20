@@ -44,6 +44,7 @@ endGameButton = document.getElementById('endgamediv');
 
 window.onload = function () {
     bombDiv.hidden = true;
+    endGameButton.hidden = true;
     init(tasksJson);
 }
 
@@ -137,7 +138,7 @@ function wrongAnswer() {
         return;
     }
 
-    gameStatusField.innerText += `Переход хода к игроку  ${players[currentPlayerNumber].name} через `;
+    gameStatusField.innerText += ` Переход хода к игроку  ${players[currentPlayerNumber].name} через `;
     prepareTimer(3);
 }
 
