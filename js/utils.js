@@ -1,4 +1,6 @@
 const commonAnswersCount = 6;
+const questionEight = 1;
+const questionOneMillion = 0;
 
 
 const randomIntNumber = (max = 1, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);

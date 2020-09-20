@@ -11,12 +11,13 @@ tikTakBoom = {
         textFieldAnswer5,
         startGamediv,
         endGamediv,
-        playernum        
+        playernum      
     ) {
         this.boomTimer = 30;
         this.countOfPlayers = 2;
         this.unparsedTasks = tasks;
         this.tasks = undefined;
+        this.superQuestionType = undefined;
 
         this.timerField = timerField;
         this.gameStatusField = gameStatusField;
@@ -72,10 +73,10 @@ tikTakBoom = {
                 //Проверка наличия параеметров в ответах
                 let qAnswer1 = quest.answer1;
                 let qAnswer2 = quest.answer2;
-                let qAnswer3 = quest.answer2; 
-                let qAnswer4 = quest.answer2; 
-                let qAnswer5 = quest.answer2; 
-                let qAnswer6 = quest.answer2;         
+                let qAnswer3 = quest.answer3; 
+                let qAnswer4 = quest.answer4; 
+                let qAnswer5 = quest.answer5; 
+                let qAnswer6 = quest.answer6;         
                 if(!qAnswer1.hasOwnProperty(`result`)){
                     throw new Error(`Не хватает верности ответа в ответе №1 в вопросе №${i}`);
                 }
@@ -124,10 +125,10 @@ tikTakBoom = {
                 if(typeof(qAnswer6.result) !== `boolean`){ throw new Error(`Верность ответа ответа №6 в вопросе №${i} не bool!`);}
                 if(qAnswer1.value.length===0){ throw new Error(`Отсутствует результат ответа №1 в вопросе №${i}!`);}                 
                 if(qAnswer2.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
-                if(qAnswer3.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
-                if(qAnswer4.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
-                if(qAnswer5.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
-                if(qAnswer6.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
+                if(qAnswer3.value.length===0){ throw new Error(`Отсутствует результат ответа №3 в вопросе №${i}!`);}
+                if(qAnswer4.value.length===0){ throw new Error(`Отсутствует результат ответа №4 в вопросе №${i}!`);}
+                if(qAnswer5.value.length===0){ throw new Error(`Отсутствует результат ответа №5 в вопросе №${i}!`);}
+                if(qAnswer6.value.length===0){ throw new Error(`Отсутствует результат ответа №6 в вопросе №${i}!`);}
                 //нет вопроса с двумя правильными и неправильными ответами
                 if(qAnswer1.result === qAnswer2.result) { throw new Error(`Ответы совпадают в вопросе №${i}!`);}
             }
@@ -198,6 +199,21 @@ tikTakBoom = {
         this.gameStatusField.innerText += ` Вопрос игроку №${this.state}`;
 
         const taskNumber = randomIntNumber(this.tasks.length - 1);
+
+        const superQuestion = randomIntNumber(this.tasks.length - 1);
+
+        if (taskNumber === superQuestion)
+        {
+            superQuestionType = randomIntNumber();
+
+           if (superQuestionType === questionOneMillion) {
+                this.gameStatusField.innerText +=  ' Это вопрос на миллион'
+            }
+            else {
+                this.gameStatusField.innerText +=  ' Это вопрос восьмерка'
+            }
+        }
+
         this.printQuestion(this.tasks[taskNumber]);
 
         this.tasks.splice(taskNumber, 1);
@@ -208,11 +224,21 @@ tikTakBoom = {
     turnOff(value) {
         if (value) {
             this.gameStatusField.innerText = 'Верно!';
+            
+            // user answered correct on OneMillionQuestion we should finish game (result-"won")
+            if (superQuestionType === questionOneMillion) {
+                this.rightAnswers = this.needRightAnswers;
+            }
             this.rightAnswers += 1;
         } else {
             this.gameStatusField.innerText = 'Неверно!';
         }
-        if (this.rightAnswers < this.needRightAnswers) {
+
+        // user answered on question eight but he has not enough right answers
+        if (superQuestionType === questionEight && this.rightAnswers < this.needRightAnswers) {
+            this.finish('lose');
+        }
+        else if (this.rightAnswers < this.needRightAnswers) {
             if (this.tasks.length === 0) {
                 this.finish('lose');
             } else {
