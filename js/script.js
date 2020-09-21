@@ -12,7 +12,8 @@ window.onload = function()
         document.getElementById('answer5'),
         document.getElementById('startgamediv'),       
         document.getElementById('endgamediv'),
-        document.getElementById('number')    //вы получали из dom не тот элемент    
+        document.getElementById('playerNum'),
+        document.getElementById('number')  
     );
     tikTakBoom.run();
 }

@@ -11,10 +11,11 @@ tikTakBoom = {
         textFieldAnswer5,
         startGamediv,
         endGamediv,
-        playernum
+        _playerNumRow,
+        _playernumdiv
     ) {
-        this.boomTimer = 30;
-        this.countOfPlayers = playernum.value;
+        this.boomTimer = 10;
+
         this.unparsedTasks = undefined;
         this.tasks = undefined;
         this.superQuestionType = -1;
@@ -29,7 +30,8 @@ tikTakBoom = {
         this.textFieldAnswer5 = textFieldAnswer5;
         this.startGameDiv = startGamediv;
         this.endGameDiv = endGamediv;
-        this.playerNum = playernum;
+        this.playerNumRow = _playerNumRow,
+        this.playerNumDiv = _playernumdiv;
 
         this.needRightAnswers = 3;
     },
@@ -38,7 +40,7 @@ tikTakBoom = {
     readJSON() {
         try {
             //Попытка чтения файла
-            this.tasks = JSON.parse(tasks);  
+            this.tasks = JSON.parse(tasks);
             this.unparsedTasks = tasks;
             //вопросов > 30
             if (this.tasks.length < 29) {
@@ -124,18 +126,18 @@ tikTakBoom = {
                 //В каждом вопросе есть текст
                 if (quest.question.length === 0) { throw new Error(`Отсутствует тест вопроса в вопросе №${i}!`); }
                 //во всех ответах заполнены данные
-                if(typeof(qAnswer1.result) !== `boolean`){ throw new Error(`Верность ответа ответа №1 в вопросе №${i} не bool!`);}
-                if(typeof(qAnswer2.result) !== `boolean`){ throw new Error(`Верность ответа ответа №2 в вопросе №${i} не bool!`);}
-                if(typeof(qAnswer3.result) !== `boolean`){ throw new Error(`Верность ответа ответа №3 в вопросе №${i} не bool!`);}
-                if(typeof(qAnswer4.result) !== `boolean`){ throw new Error(`Верность ответа ответа №4 в вопросе №${i} не bool!`);}
-                if(typeof(qAnswer5.result) !== `boolean`){ throw new Error(`Верность ответа ответа №5 в вопросе №${i} не bool!`);}
-                if(typeof(qAnswer6.result) !== `boolean`){ throw new Error(`Верность ответа ответа №6 в вопросе №${i} не bool!`);}
-                if(qAnswer1.value.length===0){ throw new Error(`Отсутствует результат ответа №1 в вопросе №${i}!`);}                 
-                if(qAnswer2.value.length===0){ throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`);}
-                if(qAnswer3.value.length===0){ throw new Error(`Отсутствует результат ответа №3 в вопросе №${i}!`);}
-                if(qAnswer4.value.length===0){ throw new Error(`Отсутствует результат ответа №4 в вопросе №${i}!`);}
-                if(qAnswer5.value.length===0){ throw new Error(`Отсутствует результат ответа №5 в вопросе №${i}!`);}
-                if(qAnswer6.value.length===0){ throw new Error(`Отсутствует результат ответа №6 в вопросе №${i}!`);}
+                if (typeof (qAnswer1.result) !== `boolean`) { throw new Error(`Верность ответа ответа №1 в вопросе №${i} не bool!`); }
+                if (typeof (qAnswer2.result) !== `boolean`) { throw new Error(`Верность ответа ответа №2 в вопросе №${i} не bool!`); }
+                if (typeof (qAnswer3.result) !== `boolean`) { throw new Error(`Верность ответа ответа №3 в вопросе №${i} не bool!`); }
+                if (typeof (qAnswer4.result) !== `boolean`) { throw new Error(`Верность ответа ответа №4 в вопросе №${i} не bool!`); }
+                if (typeof (qAnswer5.result) !== `boolean`) { throw new Error(`Верность ответа ответа №5 в вопросе №${i} не bool!`); }
+                if (typeof (qAnswer6.result) !== `boolean`) { throw new Error(`Верность ответа ответа №6 в вопросе №${i} не bool!`); }
+                if (qAnswer1.value.length === 0) { throw new Error(`Отсутствует результат ответа №1 в вопросе №${i}!`); }
+                if (qAnswer2.value.length === 0) { throw new Error(`Отсутствует результат ответа №2 в вопросе №${i}!`); }
+                if (qAnswer3.value.length === 0) { throw new Error(`Отсутствует результат ответа №3 в вопросе №${i}!`); }
+                if (qAnswer4.value.length === 0) { throw new Error(`Отсутствует результат ответа №4 в вопросе №${i}!`); }
+                if (qAnswer5.value.length === 0) { throw new Error(`Отсутствует результат ответа №5 в вопросе №${i}!`); }
+                if (qAnswer6.value.length === 0) { throw new Error(`Отсутствует результат ответа №6 в вопросе №${i}!`); }
                 //нет вопроса с двумя правильными и неправильными ответами
                 if (qAnswer1.result === qAnswer2.result) { throw new Error(`Ответы совпадают в вопросе №${i}!`); }
                 let qAnsw = [qAnswer1.result, qAnswer2.result, qAnswer3.result, qAnswer4.result, qAnswer5.result, qAnswer6.result];
@@ -165,7 +167,7 @@ tikTakBoom = {
         this.textFieldAnswer3.style.display = "none";
         this.textFieldAnswer4.style.display = "none";
         this.textFieldAnswer5.style.display = "none";
-        this.playerNum.style.display = "block";
+        //this.playerNumRow.style.display = "block";
         this.startGameDiv.style.display = "block";
     },
 
@@ -176,7 +178,7 @@ tikTakBoom = {
         this.textFieldAnswer3.style.display = "block";
         this.textFieldAnswer4.style.display = "block";
         this.textFieldAnswer5.style.display = "block";
-        //    this.playerNum.style.display = "none";  
+        //    this.playerNumDiv.style.display = "none";  
         //this.startGameDiv.style.display = "none";   
     },
 
@@ -187,82 +189,104 @@ tikTakBoom = {
         }
         else {
             this.startGameDiv.style.display = "none";
-            this.playerNum.style.display = "none";
+            this.playerNumRow.style.display = "none";
         };
     },
 
     //Время подготовки игрока
     startTimer() {
+        this.countOfPlayers = this.playerNumDiv.value;
+        this.initPlayers(this.countOfPlayers);
+        this.playerNumRow.hidden = true;
         let timeToPlay = 3;
         this.timerField.innerText = `3`;
-        this.gameStatusField.innerText = `Игра начнётся через`;
+        this.state = 1;
+        this.gameStatusField.innerText = `Ход игрока ${players[this.state-1].name}. Игра начнётся через`;
         let self = this;
         const startTimer = setInterval(function () { timeToPlay--; this.timerField.innerText = `${timeToPlay}`; }, 1000);
         setTimeout(function () { clearInterval(startTimer); self.startQueeze(); }, 3000);
         this.startGameDiv.style.display = "none";
-        this.playerNum.style.display = "none";
+        this.playerNumDiv.style.display = "none";
     },
 
     startQueeze() {
-        this.initPlayers(this.countOfPlayers);
-        this.currentPlayerNumber = 0;
         this.rightAnswers = 0;
-        this.state = 1;
         this.gameStatusField.innerText = `Игра идёт`;
         this.showGameControls();
         this.endGameDiv.addEventListener('click', endGame = () => this.finish(`lose`));
         this.turnOn();
+        this.timerIsRunning = true;
         this.timer();
     },
 
     turnOn() {
-        var player = this.getNextPlayer();
-        this.gameStatusField.innerText += ` Вопрос игроку №${player.name}`;
+        var player = players[this.state - 1];
+        this.gameStatusField.innerText = `Вопрос игроку ${player.name}`;
+        this.timerIsRunning = true;
 
         const taskNumber = randomIntNumber(this.tasks.length - 1);
 
         const superQuestion = randomIntNumber(this.tasks.length - 1);
 
-        if (taskNumber === superQuestion)
-        {
+        if (taskNumber === superQuestion) {
             superQuestionType = randomIntNumber();
 
-           if (superQuestionType === questionOneMillion) {
-                this.gameStatusField.innerText +=  ' Это вопрос на миллион'
+            if (superQuestionType === questionOneMillion) {
+                this.gameStatusField.innerText += ' Это вопрос на миллион'
             }
             else {
-                this.gameStatusField.innerText +=  ' Это вопрос восьмерка'
+                this.gameStatusField.innerText += ' Это вопрос восьмерка'
             }
         }
 
         this.printQuestion(this.tasks[taskNumber]);
 
         this.tasks.splice(taskNumber, 1);
+    },
 
-        this.state = (this.state === this.countOfPlayers) ? 1 : this.state + 1;
+    playerIsLeft() {
+        this.timerIsRunning = false;
+        var curPlayer = players[this.state - 1];
+        this.gameStatusField.innerText = ` ${curPlayer.name} выбывает. Приготовиться следующему игроку...`;
+
+        if (this.state == players.length) {
+            this.finish("lose");
+        } else {
+            this.state++;
+            this.boomTimer = 10;
+            let timeToPlay = 3;
+            let self = this;
+            const startTimer = setInterval(function () { timeToPlay--; this.timerField.innerText = `${timeToPlay}`; }, 1000);
+            setTimeout(function () { clearInterval(startTimer); self.turnOn(); }, 3000);
+        }
     },
 
     turnOff(value) {
+        var curPlayer = players[this.state - 1];
         if (value) {
             this.gameStatusField.innerText = 'Верно!';
-            
+            this.boomTimer += 5;
+
             // user answered correct on OneMillionQuestion we should finish game (result-"won")
             if (this.superQuestionType === questionOneMillion) {
                 //this.rightAnswers = this.needRightAnswers;
-                players[this.currentPlayerNumber].score = this.needRightAnswers;
+                curPlayer.score = this.needRightAnswers;
             }
             //this.rightAnswers += 1;
-            players[this.currentPlayerNumber].score++;
+            curPlayer.score++;
         } else {
             this.gameStatusField.innerText = 'Неверно!';
-            players[this.currentPlayerNumber].score--;
+            curPlayer.remainErrors--;
+            if (curPlayer.remainErrors == 0) {
+                this.playerIsLeft();
+            }
         }
 
         // user answered on question eight but he has not enough right answers
         if (this.superQuestionType === questionEight && players[this.currentPlayerNumber].score < this.needRightAnswers) {
             this.finish('lose');
         }
-        else if (players[this.currentPlayerNumber].score < this.needRightAnswers) {
+        else if (curPlayer.score < this.needRightAnswers) {
             if (this.tasks.length === 0) {
                 this.finish('lose');
             } else {
@@ -333,13 +357,15 @@ tikTakBoom = {
 
     finish(result = 'lose') {
         this.state = 0;
-        this.currentPlayerNumber = 0;
         if (result === 'lose') {
             this.gameStatusField.innerText = `Вы проиграли!`;
         }
         if (result === 'won') {
             this.gameStatusField.innerText = `Вы выиграли!`;
         }
+
+        var winner = getWinner();
+        this.gameStatusField.innerText += `Наибольшее число очков ${winner.score} у ${winner.name}`;
 
         this.boomTimer = 30;
         this.textFieldQuestion.innerText = ``;
@@ -352,25 +378,29 @@ tikTakBoom = {
     },
 
     timer() {
-        if (this.state){
+        if (this.timerIsRunning && this.state) {
             this.boomTimer -= 1;
             let sec = this.boomTimer % 60;
             let min = (this.boomTimer - sec) / 60;
             sec = (sec >= 10) ? sec : '0' + sec;
             min = (min >= 10) ? min : '0' + min;
             this.timerField.innerText = `${min}:${sec}`;
-    
-            if (this.boomTimer > 0) {
-                setTimeout(
-                    () => {
-                        this.timer()
-                    },
-                    1000,
-                )
-            } else {
-                this.finish('lose');
-            }    
+
+            if (this.boomTimer == 0) {
+                if (this.state == players.length) {
+                    this.finish('lose');
+                    return;
+                } else {
+                    this.playerIsLeft();
+                }
+            }            
         }
+        setTimeout(
+            () => {
+                this.timer()
+            },
+            1000,
+        )
     },
 
     initPlayers(count) {
@@ -384,14 +414,18 @@ tikTakBoom = {
             players.push(player)
         }
     },
-    getNextPlayer() {
-        if (this.state < players.count - 1) {
-            this.state++;
-        } else {
-            this.state = 0;
-        }
-        return players[this.state];
-    }
 };
 
 players = [];
+
+function getWinner() {
+    maxScore = -999;
+    var winner = players[0];
+    for(player of players) {
+        if(player.score > maxScore) {
+            winner = player;
+            maxScore = player.score;
+        }
+    }
+    return winner;
+}
